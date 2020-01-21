@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.cardview.widget.CardView
+
+    android:elevation="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_height="70dp">
+    <RelativeLayout
+        android:background="@drawable/card_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/progress"
+            app:SpinKit_Style="FadingCircle"
+            android:layout_marginRight="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/lin"
+            android:layout_alignParentStart="true"
+            android:layout_width="20dp"
+            android:indeterminate="true"
+            android:layout_height="20dp" />
+    <LinearLayout
+        android:id="@+id/lin"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:alpha="0.5"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/semester"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:alpha="0.5"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/year"/>
+
+
+    </LinearLayout>
+        <ImageView
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/lin"
+            android:layout_alignParentEnd="true"
+            android:alpha="0"
+            android:id="@+id/arrow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+</RelativeLayout>
