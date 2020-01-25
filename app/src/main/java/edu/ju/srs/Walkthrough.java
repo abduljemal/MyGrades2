@@ -12,8 +12,8 @@ import java.util.List;
 
 public class Walkthrough extends AWalkthroughActivity {
     String title[]={"My Grades","If you like My grades"};
-    String detail[]={"Academic status on the GO!!","RATE 5 STARS"};
-     int drawable[]={R.drawable.easy,R.drawable.rate};
+    String detail[]={"Academic status on the GO!!","Let us know on https://telegram.me/mygrades"};
+     int drawable[]={R.drawable.easy,R.drawable.like};
     private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

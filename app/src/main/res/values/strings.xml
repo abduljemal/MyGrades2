@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">My Grades</string>
     <string name="copyright">Copyyright \u00a9 2020 All rights reserved</string>
+    <string name="total">Total:</string>
+    <string name="grade">Grade:</string>
+    <string name="my_grades">My Grades</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="remember">Remember</string>
+    <string name="login">Login</string>
+    <string name="by_logging_in_you_agree_to_terms_and_conditions">By logging in, you agree to terms and conditions</string>
+    <string name="version">Version 1.0</string>
+    <string name="desc">My Grades is used to view result   from srs outside of jimma university\'s network</string>
+    <string name="link">Download and update will available at t.me/mygrades</string>
+    <string name="login">Login</string>
+    <string name="terms">By logging in, you agree to terms and conditions</string>
 </resources>

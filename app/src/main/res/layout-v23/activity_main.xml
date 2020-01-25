@@ -104,7 +104,7 @@
                 android:buttonTint="@color/white"
                 android:drawableTint="@color/white"
                 android:paddingStart="10dp"
-                android:text="@string/remember"
+                android:text="Remember"
                 android:textColor="@color/white" />
 
 
@@ -128,7 +128,7 @@
             android:textSize="12sp"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:text="@string/by_logging_in_you_agree_to_terms_and_conditions" />
+            android:text="@string/terms" />
 
 
     </RelativeLayout>

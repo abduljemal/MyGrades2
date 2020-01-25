@@ -148,13 +148,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public static boolean CheckConnectivity(final Context c) {
         ConnectivityManager mConnectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (mConnectivityManager.getActiveNetworkInfo() != null
+        return mConnectivityManager.getActiveNetworkInfo() != null
                 && mConnectivityManager.getActiveNetworkInfo().isAvailable()
-                && mConnectivityManager.getActiveNetworkInfo().isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
+                && mConnectivityManager.getActiveNetworkInfo().isConnected();
     }
 
     public void Login(View view) {
@@ -190,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         myRef.child("MSG").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String s=null;
+                String s;
                 if((s=dataSnapshot.getValue(String.class))!=null){
                     SharedPreferences.Editor e = preferences.edit();
                     e.putString("MSG",s);
@@ -213,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("username",username.getText().toString());
             editor.putString("password",password.getText().toString());
         }
-            editor.commit();
+            editor.apply();
             DatabaseReference users=myRef.child("users").push();
             uid=users.getKey();
             Map<String,String> use=new HashMap<>();
@@ -260,8 +256,8 @@ public class MainActivity extends AppCompatActivity {
                 String res = dataSnapshot.getValue(String.class);
                 if(res!=null && res.equals("true")){
                     Log.e("SRSD","EXECUTE");
-                    SharedPreferences sharedPreferences=getSharedPreferences("s",0);
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
+//                    SharedPreferences sharedPreferences=getSharedPreferences("s",0);
+//                    SharedPreferences.Editor editor=sharedPreferences.edit();
                     CHECK=false;
                     getUserData();
                 }
@@ -356,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
                                  e.putBoolean("summary",true);
                                  e.putInt("slen",(int) dataSnapshot.getChildrenCount());
                                  Log.e("SRSD","COMMIT");
-                                 e.commit();
+                                 e.apply();
                              }
 
                          }
@@ -436,39 +432,37 @@ public class MainActivity extends AppCompatActivity {
        moreDetailListener= myRef.child("RESULT").child(uid).child("detail").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> details = dataSnapshot.getChildren().iterator();
-                while (details.hasNext()){
-                    DataSnapshot semester = details.next();
-                    String semesterId=semester.getKey();
+                for (DataSnapshot semester : dataSnapshot.getChildren()) {
+                    String semesterId = semester.getKey();
                     Iterator<DataSnapshot> courses = semester.getChildren().iterator();
-                    ArrayList<Courses> coursesArrayList=new ArrayList<>();
-                    while (courses.hasNext()){
+                    ArrayList<Courses> coursesArrayList = new ArrayList<>();
+                    while (courses.hasNext()) {
                         DataSnapshot course = courses.next();
-                        ArrayList<Map<String,String>> arrayList=new ArrayList();
-                        String cname=course.child("cname").getValue(String.class);
+                        ArrayList<Map<String, String>> arrayList = new ArrayList();
+                        String cname = course.child("cname").getValue(String.class);
                         Iterator<DataSnapshot> maxs = course.child("max").getChildren().iterator();
-                        Iterator<DataSnapshot> results=course.child("result").getChildren().iterator();
-                        Map<String,String> m= new HashMap<String, String>();
-                        Map<String,String> r= new HashMap<String, String>();
-                        while (maxs.hasNext()){
+                        Iterator<DataSnapshot> results = course.child("result").getChildren().iterator();
+                        Map<String, String> m = new HashMap<>();
+                        Map<String, String> r = new HashMap<>();
+                        while (maxs.hasNext()) {
                             DataSnapshot max = maxs.next();
-                            m.put(max.getKey(),max.getValue(String.class));
+                            m.put(max.getKey(), max.getValue(String.class));
                         }
-                        while (results.hasNext()){
+                        while (results.hasNext()) {
                             DataSnapshot result = results.next();
-                            r.put(result.getKey(),result.getValue(String.class));
+                            r.put(result.getKey(), result.getValue(String.class));
                         }
 
-                        Courses c=new Courses(cname,m,r);
+                        Courses c = new Courses(cname, m, r);
                         coursesArrayList.add(c);
                     }
-                    Detail detail=new Detail(semesterId,coursesArrayList);
+                    Detail detail = new Detail(semesterId, coursesArrayList);
                     Helper r = new Helper(getApplicationContext());
                     // Toast.makeText(getApplicationContext(),"Saving Detail",Toast.LENGTH_SHORT).show();
                     r.SaveDetail(detail);
-                    SharedPreferences.Editor e=getApplicationContext().getSharedPreferences("SRS",0).edit();
-                    e.putBoolean("detail",true);
-                    e.commit();
+                    SharedPreferences.Editor e = getApplicationContext().getSharedPreferences("SRS", 0).edit();
+                    e.putBoolean("detail", true);
+                    e.apply();
 
 
                 }
@@ -483,13 +477,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 SharedPreferences.Editor e;
-                if(dataSnapshot!=null){
-                    String str=dataSnapshot.getValue(String.class);
-                    if(str!=null){
-                        e=getApplicationContext().getSharedPreferences("SRS",0).edit();
-                        e.putString("DETAIL","OK");
-                        e.apply();
-                    }}
+                String str=dataSnapshot.getValue(String.class);
+                if(str!=null){
+                    e=getApplicationContext().getSharedPreferences("SRS",0).edit();
+                    e.putString("DETAIL","OK");
+                    e.apply();
+                }
             }
 
             @Override
@@ -525,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
 class DoInBG extends AsyncTask<Boolean,Boolean,Boolean>{
     private Context context;
     private CircularProgressButton but;
-    public DoInBG(Context applicationContext, CircularProgressButton button) {
+    DoInBG(Context applicationContext, CircularProgressButton button) {
         this.but=button;
         this.context=applicationContext;
     }
@@ -556,7 +549,7 @@ class DoInBG extends AsyncTask<Boolean,Boolean,Boolean>{
     protected void onProgressUpdate(Boolean... values) {
         super.onProgressUpdate(values);
         if(MainActivity.EXIT)return;
-        if(values[0]==true){
+        if(values[0]){
             AToast.makeText(context,"Taking longer than expected",AToast.LENGTH_LONG,AToast.INFO).show();
             return;
         }

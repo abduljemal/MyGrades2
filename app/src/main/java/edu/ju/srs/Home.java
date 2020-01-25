@@ -102,7 +102,7 @@ public class Home extends AppCompatActivity {
         SharedPreferences preferences=getSharedPreferences("SRS",0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("saved",false);
-        editor.commit();
+        editor.apply();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
     }
@@ -136,7 +136,7 @@ class Background extends AsyncTask<Void,Void,Void> {
     ProgressBar progressBar;
     Home home;
 
-    public Background(Context applicationContext, ProgressBar progressBar, LinearLayout linearLayout, Home home) {
+    Background(Context applicationContext, ProgressBar progressBar, LinearLayout linearLayout, Home home) {
         this.c=applicationContext;
         this.progressBar=progressBar;
         this.layout=linearLayout;
@@ -178,8 +178,7 @@ class Background extends AsyncTask<Void,Void,Void> {
             }
             e.apply();
 
-            if(s.length==4)
-                singleChoice(s[0],s[1],s[2]);
+            singleChoice(s[0],s[1],s[2]);
         }
     }
 
